@@ -126,7 +126,7 @@
     width: 100%;
     height: 100%;
     z-index: 1;
-    opacity: 0.5;
+    opacity: 0.7;
   }
 
   .cards-container {
@@ -272,11 +272,11 @@
   <div class="right-section">
     <svg class="grid-bg" preserveAspectRatio="none">
       <defs>
-        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(26, 26, 26, 0.03)" stroke-width="1"/>
+        <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.5" fill="rgba(26, 26, 26, 0.14)" />
         </pattern>
       </defs>
-      <rect width="100%" height="100%" fill="url(#grid)" />
+      <rect width="100%" height="100%" fill="url(#dots)" />
     </svg>
 
     <div class="cards-container">
