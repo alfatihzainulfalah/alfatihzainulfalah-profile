@@ -17,6 +17,34 @@
     { name: "LinkedIn", url: "https://linkedin.com", icon: "linkedin" },
     { name: "TikTok", url: "https://tiktok.com", icon: "tiktok" }
   ];
+
+  const techLogos = [
+    { name: "React", slug: "react", color: "61DAFB" },
+    { name: "JavaScript", slug: "javascript", color: "F7DF1E" },
+    { name: "Vue.js", slug: "vuedotjs", color: "4FC08D" },
+    { name: "Laravel", slug: "laravel", color: "FF2D20" },
+    { name: "PHP", slug: "php", color: "777BB4" },
+    { name: "Express", slug: "express", color: "1a1a1a" },
+    { name: "Linux", slug: "linux", color: "FCC624" },
+    { name: "Kali Linux", slug: "kalilinux", color: "557C94" },
+    { name: "Arch Linux", slug: "archlinux", color: "1793D1" },
+    { name: "GitHub", slug: "github", color: "1a1a1a" },
+    { name: "TypeScript", slug: "typescript", color: "3178C6" },
+    { name: "Node.js", slug: "nodedotjs", color: "5FA04E" },
+    { name: "HTML5", slug: "html5", color: "E34F26" },
+    { name: "CSS3", slug: "css3", color: "1572B6" },
+    { name: "Tailwind CSS", slug: "tailwindcss", color: "06B6D4" },
+    { name: "Docker", slug: "docker", color: "2496ED" },
+    { name: "Git", slug: "git", color: "F05032" },
+    { name: "MySQL", slug: "mysql", color: "4479A1" },
+    { name: "PostgreSQL", slug: "postgresql", color: "4169E1" },
+    { name: "MongoDB", slug: "mongodb", color: "47A248" },
+    { name: "Figma", slug: "figma", color: "F24E1E" },
+    { name: "Python", slug: "python", color: "3776AB" },
+    { name: "Svelte", slug: "svelte", color: "FF3E00" },
+    { name: "Vercel", slug: "vercel", color: "1a1a1a" }
+  ];
+  const carouselLogos = [...techLogos, ...techLogos];
 </script>
 
 <style>
@@ -111,6 +139,55 @@
     background: rgba(26, 26, 26, 0.15);
   }
 
+  @keyframes scroll-logos {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .logo-carousel {
+    margin-top: 36px;
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  }
+
+  .logo-track {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    width: max-content;
+    animation: scroll-logos 24s linear infinite;
+  }
+
+  .logo-carousel:hover .logo-track {
+    animation-play-state: paused;
+  }
+
+  .logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    opacity: 0.75;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .logo-item:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+
+  .logo-item img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
+
   .right-section {
     flex: 1;
     position: relative;
@@ -199,6 +276,11 @@
       font-size: 14px;
     }
 
+    .name-box {
+      width: 100%;
+      max-width: 100%;
+    }
+
     .divider {
       width: 30px;
       margin: 16px auto 0;
@@ -220,7 +302,12 @@
     }
 
     .card {
-      position: relative;
+      position: relative !important;
+      top: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      left: auto !important;
+      z-index: auto !important;
       width: 100%;
       height: 140px;
       animation: none !important;
@@ -241,6 +328,11 @@
     .social-icon {
       width: 28px;
       height: 28px;
+    }
+
+    .logo-carousel {
+      max-width: 100%;
+      margin-top: 24px;
     }
   }
 </style>
@@ -265,6 +357,16 @@
             {/if}
           </a>
         {/each}
+      </div>
+
+      <div class="logo-carousel">
+        <div class="logo-track">
+          {#each carouselLogos as logo}
+            <div class="logo-item" title={logo.name}>
+              <img src={`https://cdn.simpleicons.org/${logo.slug}/${logo.color}`} alt={logo.name} loading="lazy" />
+            </div>
+          {/each}
+        </div>
       </div>
     </div>
   </div>
