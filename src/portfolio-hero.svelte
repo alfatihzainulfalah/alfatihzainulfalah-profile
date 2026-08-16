@@ -4,7 +4,7 @@
   import ProjectModal from './components/modal/ProjectModal.svelte';
   import StepIndicator from './components/StepIndicator.svelte';
 
-  let developerName = "John Doe";
+  let developerName = "Al Fatih Zainul Falah";
   let subtitle = "Software Engineer & Creative Technologist";
 
   /** @type {{ name: string, desc: string, color1: string, color2: string } | null} */
