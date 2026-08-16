@@ -63,7 +63,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(26, 26, 26, 0.22);
+    background: var(--border);
     transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
       height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
       background 0.35s ease, box-shadow 0.35s ease;
@@ -72,22 +72,22 @@
   .step.active .dot {
     width: 10px;
     height: 10px;
-    background: #1a1a1a;
-    box-shadow: 0 0 0 5px rgba(26, 26, 26, 0.1);
+    background: var(--primary-dark);
+    box-shadow: 0 0 0 5px var(--primary-soft);
   }
 
   .connector {
     width: 2px;
     height: 26px;
     border-radius: 1px;
-    background: rgba(26, 26, 26, 0.12);
+    background: var(--border);
     overflow: hidden;
   }
 
   .connector-fill {
     width: 100%;
     height: 0%;
-    background: #1a1a1a;
+    background: var(--primary-dark);
     transition: height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -100,12 +100,13 @@
     font-weight: 600;
     letter-spacing: 0.6px;
     text-transform: uppercase;
-    color: #1a1a1a;
+    color: var(--text);
     white-space: nowrap;
-    background: #ffffff;
+    background: var(--background);
     padding: 4px 10px;
     border-radius: 6px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.25s ease, transform 0.25s ease;

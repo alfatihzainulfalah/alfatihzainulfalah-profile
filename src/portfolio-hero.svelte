@@ -1,11 +1,36 @@
 <script>
+  import { onMount } from 'svelte';
   import CardProject from './components/card/CardProject.svelte';
   import CardCertificate from './components/card/CardCertificate.svelte';
   import ProjectModal from './components/modal/ProjectModal.svelte';
   import StepIndicator from './components/StepIndicator.svelte';
 
-  let developerName = "Al Fatih Zainul Falah";
+  let developerName = "Al Fatih\nZainul\nFalah";
   let subtitle = "Software Engineer & Creative Technologist";
+
+  let typedSubtitle = '';
+  let showCursor = true;
+
+  onMount(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      typedSubtitle = subtitle;
+      showCursor = false;
+      return;
+    }
+
+    let i = 0;
+    const typeInterval = setInterval(() => {
+      i += 1;
+      typedSubtitle = subtitle.slice(0, i);
+      if (i >= subtitle.length) {
+        clearInterval(typeInterval);
+        setTimeout(() => { showCursor = false; }, 1400);
+      }
+    }, 40);
+
+    return () => clearInterval(typeInterval);
+  });
 
   /** @type {{ name: string, desc: string, color1: string, color2: string } | null} */
   let selectedProject = null;
@@ -88,6 +113,19 @@
 </script>
 
 <style>
+  :global(:root) {
+    --primary: #38bdf8;
+    --primary-dark: #0284c7;
+    --primary-soft: #e0f2fe;
+    --primary-pale: #f0f9ff;
+    --background: #ffffff;
+    --surface: #f8fafc;
+    --text: #111827;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
   :global(*) {
     margin: 0;
     padding: 0;
@@ -95,8 +133,8 @@
   }
 
   :global(body) {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #ffffff;
+    font-family: var(--font-sans);
+    background: var(--background);
     overflow-x: hidden;
   }
 
@@ -124,25 +162,67 @@
   }
 
   .name {
-    font-size: 96px;
-    font-weight: 900;
-    line-height: 1;
-    margin-bottom: 12px;
-    color: #1a1a1a;
-    letter-spacing: -2px;
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1.08;
+    margin-bottom: 14px;
+    color: var(--text);
+    letter-spacing: -1.5px;
+    white-space: pre-line;
   }
 
   .subtitle {
     font-size: 18px;
-    color: rgba(26, 26, 26, 0.6);
+    color: var(--text-muted);
     font-weight: 500;
     letter-spacing: 0.5px;
+    min-height: 1.4em;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: 2px;
+    background: var(--primary);
+    vertical-align: -0.15em;
+    animation: blink 1s step-end infinite;
+  }
+
+  .cursor.hidden {
+    opacity: 0;
+    animation: none;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor {
+      animation: none;
+      opacity: 0;
+    }
   }
 
   .divider {
     width: 40px;
-    height: 1px;
-    background: rgba(26, 26, 26, 0.2);
+    height: 2px;
+    background: var(--primary);
+    border-radius: 2px;
     margin-top: 24px;
     margin-bottom: 20px;
   }
@@ -163,17 +243,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(26, 26, 26, 0.05);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 8px;
     text-decoration: none;
-    transition: all 0.2s;
-    color: #1a1a1a;
-    border: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    color: var(--text-muted);
     cursor: pointer;
   }
 
   .social-icon:hover {
-    background: rgba(26, 26, 26, 0.15);
+    background: var(--primary-soft);
+    border-color: var(--primary);
+    color: var(--primary-dark);
+  }
+
+  .social-icon:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
   }
 
   @keyframes scroll-logos {
@@ -201,6 +288,12 @@
 
   .logo-carousel:hover .logo-track {
     animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-track {
+      animation: none;
+    }
   }
 
   .logo-item {
@@ -232,6 +325,7 @@
     align-items: center;
     justify-content: center;
     padding: 40px;
+    background: var(--surface);
   }
 
   .grid-bg {
@@ -240,15 +334,18 @@
     width: 100%;
     height: 100%;
     z-index: 1;
-    opacity: 0.7;
+    opacity: 0.8;
     pointer-events: none;
   }
 
   .cards-container {
     position: relative;
+    z-index: 2;
     width: 100%;
-    height: 100%;
-    perspective: 1200px;
+    max-width: 560px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
   .section-label {
@@ -261,14 +358,14 @@
   .label-index {
     font-size: 13px;
     font-weight: 700;
-    color: rgba(26, 26, 26, 0.3);
+    color: var(--primary-dark);
     font-variant-numeric: tabular-nums;
   }
 
   .label-line {
     width: 28px;
     height: 1px;
-    background: rgba(26, 26, 26, 0.25);
+    background: var(--border);
   }
 
   .label-text {
@@ -276,7 +373,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: rgba(26, 26, 26, 0.55);
+    color: var(--text-muted);
   }
 
   .about-section {
@@ -288,7 +385,7 @@
   .section-title {
     font-size: 40px;
     font-weight: 800;
-    color: #1a1a1a;
+    color: var(--text);
     letter-spacing: -1px;
     margin-bottom: 24px;
     max-width: 620px;
@@ -297,7 +394,7 @@
   .about-text {
     font-size: 16px;
     line-height: 1.8;
-    color: rgba(26, 26, 26, 0.65);
+    color: var(--text-muted);
     max-width: 640px;
     margin-bottom: 48px;
   }
@@ -313,19 +410,19 @@
     flex-direction: column;
     gap: 4px;
     padding-left: 20px;
-    border-left: 2px solid rgba(26, 26, 26, 0.1);
+    border-left: 2px solid var(--primary);
   }
 
   .stat-value {
     font-size: 32px;
     font-weight: 800;
-    color: #1a1a1a;
+    color: var(--text);
     letter-spacing: -0.5px;
   }
 
   .stat-label {
     font-size: 13px;
-    color: rgba(26, 26, 26, 0.5);
+    color: var(--text-muted);
     font-weight: 500;
   }
 
@@ -364,6 +461,7 @@
     .name {
       font-size: 32px;
       letter-spacing: -0.5px;
+      white-space: normal;
     }
 
     .subtitle {
@@ -381,18 +479,14 @@
     }
 
     .right-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      max-height: 450px;
-      overflow-y: auto;
       padding: 20px;
       flex: none;
-      position: relative;
     }
 
     .cards-container {
-      display: contents;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      max-width: 100%;
     }
 
     .socials {
@@ -438,7 +532,10 @@
   <div class="left-section">
     <div class="name-box">
       <h1 class="name">{developerName}</h1>
-      <p class="subtitle">{subtitle}</p>
+      <p class="subtitle">
+        <span aria-hidden="true">{typedSubtitle}<span class="cursor" class:hidden={!showCursor}></span></span>
+        <span class="sr-only">{subtitle}</span>
+      </p>
       <div class="divider"></div>
 
       <div class="logo-carousel">
@@ -473,7 +570,7 @@
     <svg class="grid-bg" preserveAspectRatio="none">
       <defs>
         <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="1.5" fill="rgba(26, 26, 26, 0.14)" />
+          <circle cx="2" cy="2" r="1.5" fill="rgba(2, 132, 199, 0.16)" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#dots)" />

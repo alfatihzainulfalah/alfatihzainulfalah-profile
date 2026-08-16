@@ -64,10 +64,10 @@
   .modal {
     width: 100%;
     max-width: 480px;
-    background: #ffffff;
+    background: var(--background);
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
     position: relative;
   }
 
@@ -78,19 +78,26 @@
     width: 32px;
     height: 32px;
     border-radius: 8px;
-    border: none;
-    background: rgba(255, 255, 255, 0.85);
-    color: #1a1a1a;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 1;
-    transition: background 0.2s;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
   }
 
   .close-btn:hover {
-    background: rgba(255, 255, 255, 1);
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    border-color: var(--primary);
+  }
+
+  .close-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
   }
 
   .banner {
@@ -105,13 +112,13 @@
   .title {
     font-size: 22px;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--text);
     margin-bottom: 10px;
   }
 
   .desc {
     font-size: 14px;
     line-height: 1.6;
-    color: rgba(26, 26, 26, 0.65);
+    color: var(--text-muted);
   }
 </style>
