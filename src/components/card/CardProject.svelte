@@ -44,6 +44,23 @@
     outline-offset: 3px;
   }
 
+  .card-media {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .card-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .card-title {
     font-weight: 600;
     font-size: 14px;
@@ -82,7 +99,14 @@
   on:click={handleClick}
   on:keydown={handleKeydown}
 >
+  {#if project.image}
+    <div class="card-media">
+      <img src={project.image} alt="{project.name} preview" loading="lazy" decoding="async" />
+    </div>
+  {/if}
   <div class="card-title">{project.name}</div>
   <div class="card-desc">{project.desc}</div>
-  <div class="card-accent" style="background: linear-gradient(90deg, {project.color1}20 0%, {project.color2}20 100%);"></div>
+  {#if !project.image}
+    <div class="card-accent" style="background: linear-gradient(90deg, {project.color1}20 0%, {project.color2}20 100%);"></div>
+  {/if}
 </div>

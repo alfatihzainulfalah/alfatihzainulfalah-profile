@@ -39,11 +39,19 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
     </button>
 
-    <div class="banner" style="background: linear-gradient(135deg, {project.color1} 0%, {project.color2} 100%);"></div>
+    <div class="modal-body">
+      {#if project.image}
+        <div class="banner-image">
+          <img src={project.image} alt="{project.name} preview" loading="lazy" decoding="async" />
+        </div>
+      {:else}
+        <div class="banner" style="background: linear-gradient(135deg, {project.color1} 0%, {project.color2} 100%);"></div>
+      {/if}
 
-    <div class="content">
-      <h2 id="project-modal-title" class="title">{project.name}</h2>
-      <p class="desc">{project.desc}</p>
+      <div class="content">
+        <h2 id="project-modal-title" class="title">{project.name}</h2>
+        <p class="desc">{project.desc}</p>
+      </div>
     </div>
   </div>
 </div>
@@ -69,6 +77,11 @@
     overflow: hidden;
     box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
     position: relative;
+  }
+
+  .modal-body {
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
   }
 
   .close-btn {
@@ -103,6 +116,19 @@
   .banner {
     width: 100%;
     height: 160px;
+    overflow: hidden;
+  }
+
+  .banner-image {
+    width: 100%;
+    line-height: 0;
+    background: var(--surface);
+  }
+
+  .banner-image img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .content {

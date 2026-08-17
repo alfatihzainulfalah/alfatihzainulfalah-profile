@@ -4,6 +4,8 @@
   import CardCertificate from './components/card/CardCertificate.svelte';
   import ProjectModal from './components/modal/ProjectModal.svelte';
   import StepIndicator from './components/StepIndicator.svelte';
+  import akunterPreview from './assets/project-akunter.webp';
+  import modifyAiPreview from './assets/project-modifyai.webp';
 
   let developerName = "Al Fatih\nZainul\nFalah";
   let subtitle = "Software Engineer & Creative Technologist";
@@ -32,7 +34,7 @@
     return () => clearInterval(typeInterval);
   });
 
-  /** @type {{ name: string, desc: string, color1: string, color2: string } | null} */
+  /** @type {{ name: string, desc: string, color1: string, color2: string, image?: string } | null} */
   let selectedProject = null;
 
   /** @param {CustomEvent} event */
@@ -45,19 +47,15 @@
   }
 
   const projects = [
-    { name: "Akunter", desc: "Full-stack accounting application", color1: "rgb(59, 130, 246)", color2: "rgb(139, 92, 246)" },
-    { name: "ModifyAI", desc: "AI-powered design tool", color1: "rgb(34, 197, 94)", color2: "rgb(59, 130, 246)" },
-    { name: "TrendHub", desc: "Real-time analytics platform", color1: "rgb(168, 85, 247)", color2: "rgb(236, 72, 153)" },
-    { name: "CloudSync", desc: "Cloud storage solution", color1: "rgb(59, 130, 246)", color2: "rgb(14, 165, 233)" },
-    { name: "DataViz", desc: "Advanced data visualization", color1: "rgb(245, 158, 11)", color2: "rgb(239, 68, 68)" },
-    { name: "MobileFirst", desc: "Progressive mobile app", color1: "rgb(34, 197, 94)", color2: "rgb(168, 85, 247)" }
+    { name: "Catering Application", desc: "Full-stack Catering application", color1: "rgb(59, 130, 246)", color2: "rgb(139, 92, 246)", image: akunterPreview },
+    { name: "Cashier Application", desc: "Cashier Project", color1: "rgb(34, 197, 94)", color2: "rgb(59, 130, 246)", image: modifyAiPreview },
   ];
 
   const socials = [
-    { name: "GitHub", url: "https://github.com", icon: "github" },
-    { name: "Instagram", url: "https://instagram.com", icon: "instagram" },
-    { name: "LinkedIn", url: "https://linkedin.com", icon: "linkedin" },
-    { name: "TikTok", url: "https://tiktok.com", icon: "tiktok" }
+    { name: "GitHub", url: "https://github.com", slug: "github", color: "181717" },
+    { name: "Instagram", url: "https://instagram.com", slug: "instagram", color: "E4405F" },
+    { name: "LinkedIn", url: "https://linkedin.com", slug: "linkedin", color: "0A66C2" },
+    { name: "TikTok", url: "https://tiktok.com", slug: "tiktok", color: "000000" }
   ];
 
   const techLogos = [
@@ -228,13 +226,10 @@
   }
 
   .socials {
-    position: absolute;
-    left: 60px;
-    bottom: 40px;
     display: flex;
     gap: 16px;
     align-items: center;
-    z-index: 10;
+    justify-content: center;
   }
 
   .social-icon {
@@ -261,6 +256,26 @@
   .social-icon:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
+  }
+
+  .social-icon img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+  }
+
+  .site-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 40px 60px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-text {
+    font-size: 13px;
+    color: var(--text-muted);
   }
 
   @keyframes scroll-logos {
@@ -489,13 +504,6 @@
       max-width: 100%;
     }
 
-    .socials {
-      position: static;
-      margin-top: 24px;
-      gap: 12px;
-      justify-content: center;
-    }
-
     .social-icon {
       width: 28px;
       height: 28px;
@@ -504,6 +512,10 @@
     .logo-carousel {
       max-width: 100%;
       margin-top: 24px;
+    }
+
+    .site-footer {
+      padding: 32px 20px;
     }
 
     .about-section {
@@ -547,22 +559,6 @@
           {/each}
         </div>
       </div>
-    </div>
-
-    <div class="socials">
-      {#each socials as social}
-        <a href={social.url} target="_blank" rel="noopener" class="social-icon" title={social.name}>
-          {#if social.icon === "github"}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-          {:else if social.icon === "instagram"}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z"/></svg>
-          {:else if social.icon === "linkedin"}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.475-2.236-1.986-2.236-1.081 0-1.722.722-2.004 1.418-.103.249-.129.597-.129.946v5.441h-3.554s.05-8.81 0-9.728h3.554v1.375c.43-.664 1.199-1.61 2.92-1.61 2.135 0 3.732 1.39 3.732 4.377v5.586zM5.337 8.855c-1.144 0-1.915-.758-1.915-1.704 0-.948.77-1.704 1.963-1.704 1.192 0 1.912.756 1.938 1.704 0 .946-.746 1.704-1.938 1.704zm-1.6 11.597h3.19V9.24H3.737v11.212zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
-          {:else if social.icon === "tiktok"}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.498 3.094c1.871.855 3.381 2.366 4.236 4.236.859 1.877.859 5.148 0 7.025-.855 1.87-2.365 3.381-4.236 4.236-1.877.859-5.148.859-7.025 0-1.87-.855-3.381-2.366-4.236-4.236-.859-1.877-.859-5.148 0-7.025.855-1.87 2.366-3.381 4.236-4.236 1.877-.859 5.148-.859 7.025 0z"/></svg>
-          {/if}
-        </a>
-      {/each}
     </div>
   </div>
 
@@ -615,6 +611,21 @@
     {/each}
   </div>
 </section>
+
+<footer class="site-footer">
+  <div class="socials">
+    {#each socials as social}
+      <a href={social.url} target="_blank" rel="noopener" class="social-icon" title={social.name}>
+        {#if social.slug === "linkedin"}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0A66C2" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.475-2.236-1.986-2.236-1.081 0-1.722.722-2.004 1.418-.103.249-.129.597-.129.946v5.441h-3.554s.047-8.83 0-9.748h3.554v1.381c.472-.727 1.315-1.765 3.2-1.765 2.336 0 4.087 1.526 4.087 4.805v5.327zM5.337 9.433c-1.144 0-1.892-.762-1.892-1.72 0-.977.77-1.72 1.936-1.72 1.166 0 1.892.743 1.914 1.72 0 .958-.748 1.72-1.958 1.72zM3.56 20.452V10.704h3.554v9.748H3.56zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+        {:else}
+          <img src={`https://cdn.simpleicons.org/${social.slug}/${social.color}`} alt={social.name} width="16" height="16" loading="lazy" />
+        {/if}
+      </a>
+    {/each}
+  </div>
+  <p class="footer-text">&copy; {new Date().getFullYear()} {developerName.replace(/\n/g, ' ')}</p>
+</footer>
 
 <StepIndicator steps={sections} />
 
