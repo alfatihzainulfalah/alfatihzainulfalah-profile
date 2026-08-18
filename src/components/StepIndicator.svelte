@@ -38,10 +38,10 @@
 <style>
   .step-indicator {
     position: fixed;
-    right: 28px;
+    left: 22px;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 200;
+    z-index: 20;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,7 +52,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 9px 0;
+    padding: 7px 0;
     background: none;
     border: none;
     cursor: pointer;
@@ -60,26 +60,21 @@
   }
 
   .dot {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: var(--border);
-    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-      height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-      background 0.35s ease, box-shadow 0.35s ease;
+    transition: background 0.25s ease, transform 0.25s ease;
   }
 
   .step.active .dot {
-    width: 10px;
-    height: 10px;
     background: var(--primary-dark);
-    box-shadow: 0 0 0 5px var(--primary-soft);
+    transform: scale(1.4);
   }
 
   .connector {
-    width: 2px;
-    height: 26px;
-    border-radius: 1px;
+    width: 1px;
+    height: 18px;
     background: var(--border);
     overflow: hidden;
   }
@@ -89,33 +84,6 @@
     height: 0%;
     background: var(--primary-dark);
     transition: height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .label {
-    position: absolute;
-    right: 22px;
-    top: 50%;
-    transform: translate(6px, -50%);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-    color: var(--text);
-    white-space: nowrap;
-    background: var(--background);
-    padding: 4px 10px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease, transform 0.25s ease;
-  }
-
-  .step.active .label,
-  .step:hover .label {
-    opacity: 1;
-    transform: translate(0, -50%);
   }
 
   @media (max-width: 900px) {
@@ -136,7 +104,6 @@
       aria-current={i === activeIndex ? 'true' : undefined}
     >
       <span class="dot"></span>
-      <span class="label">{step.label}</span>
     </button>
     {#if i < steps.length - 1}
       <span class="connector">

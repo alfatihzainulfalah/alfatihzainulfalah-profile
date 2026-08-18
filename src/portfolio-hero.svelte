@@ -1,13 +1,14 @@
 <script>
   import { onMount } from 'svelte';
-  import CardProject from './components/card/CardProject.svelte';
+  import CardCarousel from './components/card/CardCarousel.svelte';
   import CardCertificate from './components/card/CardCertificate.svelte';
   import ProjectModal from './components/modal/ProjectModal.svelte';
   import StepIndicator from './components/StepIndicator.svelte';
-  import akunterPreview from './assets/project-akunter.webp';
-  import modifyAiPreview from './assets/project-modifyai.webp';
+  import akunterPreview from './assets/1.webp';
+  import modifyAiPreview from './assets/2.webp';
+  import logoProfile from './assets/logo-profile.webp';
 
-  let developerName = "Al Fatih\nZainul\nFalah";
+  let developerName = "Al Fatih Zainul Falah";
   let subtitle = "Software Engineer & Creative Technologist";
 
   let typedSubtitle = '';
@@ -138,10 +139,9 @@
 
   .container {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     position: relative;
-    overflow: hidden;
   }
 
   .left-section {
@@ -159,14 +159,21 @@
     max-width: 500px;
   }
 
+  .brand-mark {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+  }
+
   .name {
-    font-size: 64px;
+    font-size: 38px;
     font-weight: 800;
-    line-height: 1.08;
+    line-height: 1.15;
     margin-bottom: 14px;
     color: var(--text);
-    letter-spacing: -1.5px;
-    white-space: pre-line;
+    letter-spacing: -1px;
+    white-space: nowrap;
   }
 
   .subtitle {
@@ -341,6 +348,38 @@
     justify-content: center;
     padding: 40px;
     background: var(--surface);
+    overflow: hidden;
+  }
+
+  .abstract-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .abstract-bg::before,
+  .abstract-bg::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+  }
+
+  .abstract-bg::before {
+    width: 420px;
+    height: 420px;
+    top: -140px;
+    right: -120px;
+    background: radial-gradient(circle at 35% 35%, rgba(56, 189, 248, 0.3), rgba(56, 189, 248, 0) 70%);
+  }
+
+  .abstract-bg::after {
+    width: 340px;
+    height: 340px;
+    bottom: -120px;
+    left: -100px;
+    background: radial-gradient(circle at 60% 60%, rgba(2, 132, 199, 0.18), rgba(2, 132, 199, 0) 70%);
   }
 
   .grid-bg {
@@ -349,7 +388,6 @@
     width: 100%;
     height: 100%;
     z-index: 1;
-    opacity: 0.8;
     pointer-events: none;
   }
 
@@ -357,10 +395,7 @@
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 560px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    max-width: 480px;
   }
 
   .section-label {
@@ -391,12 +426,6 @@
     color: var(--text-muted);
   }
 
-  .about-section {
-    padding: 120px 60px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
   .section-title {
     font-size: 40px;
     font-weight: 800;
@@ -406,17 +435,26 @@
     max-width: 620px;
   }
 
-  .about-text {
-    font-size: 16px;
-    line-height: 1.8;
-    color: var(--text-muted);
+  .about-section {
+    padding: 40px 60px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .about-content {
     max-width: 640px;
-    margin-bottom: 48px;
+  }
+
+  .about-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin-bottom: 20px;
   }
 
   .about-stats {
     display: flex;
-    gap: 48px;
+    gap: 28px;
     flex-wrap: wrap;
   }
 
@@ -424,19 +462,19 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    padding-left: 20px;
+    padding-left: 14px;
     border-left: 2px solid var(--primary);
   }
 
   .stat-value {
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 800;
     color: var(--text);
     letter-spacing: -0.5px;
   }
 
   .stat-label {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-muted);
     font-weight: 500;
   }
@@ -463,6 +501,7 @@
   @media (max-width: 768px) {
     .container {
       flex-direction: column;
+      min-height: auto;
     }
 
     .left-section {
@@ -499,9 +538,7 @@
     }
 
     .cards-container {
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      max-width: 100%;
+      max-width: 420px;
     }
 
     .social-icon {
@@ -519,7 +556,12 @@
     }
 
     .about-section {
-      padding: 64px 20px;
+      padding: 24px 20px 32px;
+    }
+
+    .about-stats {
+      gap: 28px;
+      justify-content: center;
     }
 
     .certificates-section {
@@ -528,10 +570,6 @@
 
     .section-title {
       font-size: 28px;
-    }
-
-    .about-stats {
-      gap: 28px;
     }
 
     .certificates-grid {
@@ -543,6 +581,7 @@
 <div class="container" id="home">
   <div class="left-section">
     <div class="name-box">
+      <img src={logoProfile} alt="Logo" class="brand-mark" width="48" height="48" loading="eager" />
       <h1 class="name">{developerName}</h1>
       <p class="subtitle">
         <span aria-hidden="true">{typedSubtitle}<span class="cursor" class:hidden={!showCursor}></span></span>
@@ -563,19 +602,16 @@
   </div>
 
   <div class="right-section">
-    <svg class="grid-bg" preserveAspectRatio="none">
-      <defs>
-        <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="1.5" fill="rgba(2, 132, 199, 0.16)" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#dots)" />
+    <div class="abstract-bg" aria-hidden="true"></div>
+    <svg class="grid-bg" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <circle cx="340" cy="55" r="120" fill="none" stroke="rgba(2, 132, 199, 0.2)" stroke-width="1" vector-effect="non-scaling-stroke" />
+      <circle cx="340" cy="55" r="168" fill="none" stroke="rgba(2, 132, 199, 0.1)" stroke-width="1" vector-effect="non-scaling-stroke" />
+      <rect x="20" y="300" width="110" height="110" rx="18" fill="none" stroke="rgba(56, 189, 248, 0.18)" stroke-width="1" transform="rotate(18 75 355)" vector-effect="non-scaling-stroke" />
+      <line x1="-10" y1="150" x2="120" y2="40" stroke="rgba(2, 132, 199, 0.14)" stroke-width="1" vector-effect="non-scaling-stroke" />
     </svg>
 
     <div class="cards-container">
-      {#each projects as project}
-        <CardProject {project} on:select={openProject} />
-      {/each}
+      <CardCarousel {projects} on:select={openProject} />
     </div>
   </div>
 </div>
@@ -586,15 +622,17 @@
     <span class="label-line"></span>
     <span class="label-text">About</span>
   </div>
-  <h2 class="section-title">A little about me</h2>
-  <p class="about-text">{aboutText}</p>
-  <div class="about-stats">
-    {#each aboutStats as stat}
-      <div class="stat-item">
-        <span class="stat-value">{stat.value}</span>
-        <span class="stat-label">{stat.label}</span>
-      </div>
-    {/each}
+  <h2 class="section-title">About me</h2>
+  <div class="about-content">
+    <p class="about-text">{aboutText}</p>
+    <div class="about-stats">
+      {#each aboutStats as stat}
+        <div class="stat-item">
+          <span class="stat-value">{stat.value}</span>
+          <span class="stat-label">{stat.label}</span>
+        </div>
+      {/each}
+    </div>
   </div>
 </section>
 
